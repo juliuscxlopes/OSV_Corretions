@@ -139,7 +139,7 @@ class RetornoUsuario:
 
 # Inicialize a automação
 automacao = AutomacaoWeb()
-automacao.fazer_login("venir.86", "Metodo@2023")
+automacao.fazer_login("", "")
 
 # Página de seleção de empresa
 empresa_page = EmpresaPage(automacao.driver)
