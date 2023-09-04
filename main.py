@@ -1,15 +1,14 @@
-import tkinter as tk
-from Automacao_Classes import AutomacaoWeb, EmpresaPage, GrupoPage, UsuariosPage, SelecionarUsuario, PolProcChamadasPage, PerfilUsuarioPage, RetornoUsuario
+from Automacao_Classes import Info_basic, AutomacaoWeb, EmpresaPage, GrupoPage, UsuariosPage, SelecionarUsuario, PolProcChamadasPage, PerfilUsuarioPage, RetornoUsuario
 from selenium.common.exceptions import NoSuchElementException
 
-def iniciar_automacao():
-    login = login_entry.get()
-    senha = senha_entry.get()
-    emp = empresa_entry.get()
-    grupo = grupo_entry.get()
-    usuarios = usuarios_entry.get()
-    telefone = telefone_entry.get()
-
+def main():
+    
+    info = Info_basic()
+    login, senha = info.dados_login()
+    emp = info.empresa()
+    grupo = info.group()
+    usuarios, telefone = info.pré_fixo_e_telefone()
+    
     automacao = AutomacaoWeb()
     automacao.fazer_login(login, senha)  # Login e senha de acesso.
 
@@ -37,7 +36,7 @@ def iniciar_automacao():
             if pagina_atual == 1:
                     sel_usuario.sel_usuario(usuario_numero)
                     pol_chamadas_page.configurar_politica_chamadas()
-                    perfil_usuario_page.configurar_perfil_usuario(telefone)  # Informe o número correto para o projeto.
+                    perfil_usuario_page.configurar_perfil_usuario("") #telefone  # Informe o número correto para o projeto.
                     retorno_usuario_instancia.retornar_usuario()
                     usuarios_page.buscar_usuarios_por_regiao(usuarios)  # Altere o pré-fixo novamente.
                     usuario_numero += 1
@@ -49,7 +48,7 @@ def iniciar_automacao():
             elif pagina_atual == 2:
                 sel_usuario.sel_usuario(usuario_numero)
                 pol_chamadas_page.configurar_politica_chamadas()
-                perfil_usuario_page.configurar_perfil_usuario(telefone) # Informe o número correto para o projeto.
+                perfil_usuario_page.configurar_perfil_usuario("") #telefone # Informe o número correto para o projeto.
                 retorno_usuario_instancia.retornar_usuario()
                 usuarios_page.buscar_usuarios_por_regiao(usuarios)  # Altere o pré-fixo novamente.
                 usuarios_page.ir_para_proxima_pagina()
@@ -61,43 +60,6 @@ def iniciar_automacao():
             print('todas as Rows executadas.')
             break
 
-# Cria uma janela tkinter
-janela = tk.Tk()
-janela.title("Automação Web")
 
-# Cria rótulos e campos de entrada para as informações
-login_label = tk.Label(janela, text="Login:")
-login_label.pack()
-login_entry = tk.Entry(janela)
-login_entry.pack()
-
-senha_label = tk.Label(janela, text="Senha:")
-senha_label.pack()
-senha_entry = tk.Entry(janela, show="*")
-senha_entry.pack()
-
-empresa_label = tk.Label(janela, text="Empresa:")
-empresa_label.pack()
-empresa_entry = tk.Entry(janela)
-empresa_entry.pack()
-
-grupo_label = tk.Label(janela, text="Grupo:")
-grupo_label.pack()
-grupo_entry = tk.Entry(janela)
-grupo_entry.pack()
-
-usuarios_label = tk.Label(janela, text="Usuários:")
-usuarios_label.pack()
-usuarios_entry = tk.Entry(janela)
-usuarios_entry.pack()
-
-telefone_label = tk.Label(janela, text="Telefone:")
-telefone_label.pack()
-telefone_entry = tk.Entry(janela)
-telefone_entry.pack()
-
-# Botão para iniciar a automação
-iniciar_button = tk.Button(janela, text="Iniciar Automação", command=iniciar_automacao)
-iniciar_button.pack()
-
-janela.mainloop()
+if __name__ == "__main__":
+    main()

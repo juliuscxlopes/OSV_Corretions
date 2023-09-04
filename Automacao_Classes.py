@@ -28,18 +28,18 @@ class AutomacaoWeb:
 class Info_basic:
     
     def dados_login (self):
-        login = input('Informe o Login')
-        senha = input('informe sua senha')
+        login = input('Informe o Login: ')
+        senha = input('informe sua senha: ')
         return (login, senha)
     def empresa (self):
-        emp = input('informe a empresa')
+        emp = input('informe a empresa: ')
         return (emp)
     def group (self):
-        grupo = input('informe o grupo')
+        grupo = input('informe o grupo: ')
         return (grupo)
     def pré_fixo_e_telefone (self):
-        Usuarios = input('Informe o usuario')
-        telefone = input('informe o telefone')
+        Usuarios = input('Informe o usuario: ')
+        telefone = input('informe o telefone: ')
         return (Usuarios, telefone)
 
 class EmpresaPage:
