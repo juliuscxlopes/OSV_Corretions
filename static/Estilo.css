@@ -1,0 +1,32 @@
+
+.div-interna {
+    width: 320px;
+    height: 400px;
+    padding: 20px;
+    background-color: #ffffff; /* Cor de fundo da div interna */
+    border-radius: 15px; /* Borda arredondada */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); /* Efeito de sombra */
+}
+.inputs {
+    margin-top: 10px;
+    opacity: 80%;
+    font-family:'Courier New', Courier, monospace
+
+}
+
+h1 {
+    font-size: 20px;
+    margin: 20px;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+h3 {
+    font-size: 12px;
+    opacity: 70%;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin-top: 20px;
+}
+
+.botao {
+    margin-top: 10%;
+}

@@ -1,14 +1,12 @@
-from Automacao_Classes import Info_basic, AutomacaoWeb, EmpresaPage, GrupoPage, UsuariosPage, SelecionarUsuario, PolProcChamadasPage, PerfilUsuarioPage, RetornoUsuario
+from Automacao_Classes import AutomacaoWeb, EmpresaPage, GrupoPage, UsuariosPage, SelecionarUsuario, PolProcChamadasPage, PerfilUsuarioPage, RetornoUsuario
 from selenium.common.exceptions import NoSuchElementException
+from flask import Flask, request, render_template
+import webbrowser
 
-def main():
-    
-    info = Info_basic()
-    login, senha = info.dados_login()
-    emp = info.empresa()
-    grupo = info.group()
-    usuarios, telefone = info.pré_fixo_e_telefone()
-    
+app = Flask(__name__, template_folder='templates')
+
+# Definição da função iniciar_automacao
+def iniciar_automacao(login, senha, emp, grupo, usuarios, telefone):
     automacao = AutomacaoWeb()
     automacao.fazer_login(login, senha)  # Login e senha de acesso.
 
@@ -36,7 +34,7 @@ def main():
             if pagina_atual == 1:
                     sel_usuario.sel_usuario(usuario_numero)
                     pol_chamadas_page.configurar_politica_chamadas()
-                    perfil_usuario_page.configurar_perfil_usuario("") #telefone  # Informe o número correto para o projeto.
+                    perfil_usuario_page.configurar_perfil_usuario(telefone) #telefone  # Informe o número correto para o projeto.
                     retorno_usuario_instancia.retornar_usuario()
                     usuarios_page.buscar_usuarios_por_regiao(usuarios)  # Altere o pré-fixo novamente.
                     usuario_numero += 1
@@ -48,7 +46,7 @@ def main():
             elif pagina_atual == 2:
                 sel_usuario.sel_usuario(usuario_numero)
                 pol_chamadas_page.configurar_politica_chamadas()
-                perfil_usuario_page.configurar_perfil_usuario("") #telefone # Informe o número correto para o projeto.
+                perfil_usuario_page.configurar_perfil_usuario(telefone) #telefone # Informe o número correto para o projeto.
                 retorno_usuario_instancia.retornar_usuario()
                 usuarios_page.buscar_usuarios_por_regiao(usuarios)  # Altere o pré-fixo novamente.
                 usuarios_page.ir_para_proxima_pagina()
@@ -58,8 +56,26 @@ def main():
                 
         except NoSuchElementException:
             print('todas as Rows executadas.')
-            break
+            break        
+        
+@app.route('/')
+def home():
+    return render_template('formulario.html')
 
+@app.route('/submit-form', methods=['POST'])
+def submit_form():
+    login = request.form['login']
+    senha = request.form['senha']
+    emp = request.form['empresa']
+    grupo = request.form['grupo']
+    usuarios = request.form['usuarios']
+    telefone = request.form['telefone']
+    
+    iniciar_automacao(login, senha, emp, grupo, usuarios, telefone)
 
 if __name__ == "__main__":
-    main()
+    # Abre o navegador padrão automaticamente
+    webbrowser.open('http://127.0.0.1:5000')
+
+    # Executa o aplicativo Flask
+    app.run(debug=True)
