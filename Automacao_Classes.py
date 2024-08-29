@@ -14,7 +14,7 @@ class AutomacaoWeb:
         self.driver = webdriver.Chrome(options=chrome_options)
 
     def fazer_login(self, username, password):
-        url = 'https://xsp.gc.italk.net.br/GPOperator/Profile/'
+        url = '' 
         self.driver.get(url)
         username_field = self.driver.find_element(By.NAME, "EnteredUserID")
         password_field = self.driver.find_element(By.NAME, "Password")
@@ -74,11 +74,23 @@ class UsuariosPage:
         buscar = self.driver.find_element(By.ID, "search0")
         buscar.click()
 
-    def ir_para_proxima_pagina(self):
+    def ir_para_pagina_1(self):
         try:
             prox = self.driver.find_elements(By.CLASS_NAME, "headerLink")
             if len(prox) > 2:
                 elemento = prox[23] #Há um erro aqui, quando ele está na segunda tela não pode ser esse codigo. Pois o elemento muda de lado.
+                elemento.click()
+                self.pagina_atual += 1
+                self.usuario_atual = 1
+                return True
+        except NoSuchElementException:
+            return False
+        
+    def ir_para_proximas_paginas(self):
+        try:
+            prox = self.driver.find_elements(By.CLASS_NAME, "headerLink")
+            if len(prox) > 2:
+                elemento = prox[25] #Há um erro aqui, quando ele está na segunda tela não pode ser esse codigo. Pois o elemento muda de lado.
                 elemento.click()
                 self.pagina_atual += 1
                 self.usuario_atual = 1
@@ -131,10 +143,12 @@ class PerfilUsuarioPage:
         Telefone_saida = self.driver.find_element(By.ID, "clidPhone")
         Telefone_saida.click()
 
+        if Telefone_saida.get_attribute("value"):
+            Telefone_saida.clear()
+
         Telefone_saida.send_keys(telefone_saida)
         ok = self.driver.find_element(By.NAME, "ok")
         ok.click()
-      
 class RetornoUsuario:
     def __init__(self, driver):
         self.driver = driver
